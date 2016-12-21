@@ -13,8 +13,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds"
-	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
@@ -141,9 +139,8 @@ func setNonRootDeleteOnDestroy(svc *ec2.EC2, instID string, delOnTerm bool) erro
 func getService(region string) (*ec2.EC2, error) {
 	creds := credentials.NewChainCredentials(
 		[]credentials.Provider{
-			&credentials.EnvProvider{},                                            // check environment
-			&credentials.SharedCredentialsProvider{},                              // check home dir
-			&ec2rolecreds.EC2RoleProvider{Client: ec2metadata.New(session.New())}, // check metadata
+			&credentials.EnvProvider{},               // check environment
+			&credentials.SharedCredentialsProvider{}, // check home dir
 		},
 	)
 
