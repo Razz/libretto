@@ -137,6 +137,15 @@ func (vm *VM) SetTag(key, value string) error {
 	return nil
 }
 
+func (vm *VM) SetTags(tags map[string]string) error {
+	for k, v := range tags {
+		if err := vm.SetTag(k, v); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // Provision creates a virtual machine on AWS. It returns an error if
 // there was a problem during creation, if there was a problem adding a tag, or
 // if the VM takes too long to enter "running" state.
