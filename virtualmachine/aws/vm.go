@@ -138,42 +138,11 @@ func (vm *VM) SetTag(key, value string) error {
 }
 
 func (vm *VM) SetTags(tags map[string]string) error {
-	svc, err := getService(vm.Region)
-	if err != nil {
-		return fmt.Errorf("failed to get AWS service: %v", err)
-	}
-
-	if vm.InstanceID == "" {
-		return ErrNoInstanceID
-	}
-
-	volIDs, err := getInstanceVolumeIDs(svc, vm.InstanceID)
-	if err != nil {
-		return fmt.Errorf("Failed to get instance's volumes IDs: %s", err)
-	}
-
-	ids := make([]*string, 0, len(volIDs)+1)
-	ids = append(ids, aws.String(vm.InstanceID))
-	for _, v := range volIDs {
-		ids = append(ids, aws.String(v))
-	}
-
-	ec2tags := make([]*ec2.Tag, 0, len(tags))
 	for k, v := range tags {
-		ec2tags.append(ec2tags, ec2.Tag{
-			Key:   aws.String(k),
-			Value: aws.String(v),
-		})
-
+		if err := vm.SetTag(k, v); err != nil {
+			return err
+		}
 	}
-	_, err = svc.CreateTags(&ec2.CreateTagsInput{
-		Resources: ids,
-		Tags:      ec2tags,
-	})
-	if err != nil {
-		return fmt.Errorf("Failed to create tag on VM: %v", err)
-	}
-
 	return nil
 }
 
