@@ -3,6 +3,7 @@
 package aws
 
 import (
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"net/http"
@@ -196,6 +197,11 @@ func instanceInfo(vm *VM) *ec2.RunInstancesInput {
 		sgid[0] = aws.String(vm.SecurityGroup)
 	}
 
+	var ud *string
+	if vm.OnBoot != "" {
+		ud = aws.String(base64.StdEncoding.EncodeToString([]byte(vm.OnBoot)))
+	}
+
 	devices := make([]*ec2.BlockDeviceMapping, len(vm.Volumes))
 	for _, volume := range vm.Volumes {
 		if volume.VolumeSize == 0 {
@@ -228,6 +234,7 @@ func instanceInfo(vm *VM) *ec2.RunInstancesInput {
 		SubnetId:           sid,
 		SecurityGroupIds:   sgid,
 		IamInstanceProfile: iamInstance,
+		UserData:           us,
 	}
 }
 

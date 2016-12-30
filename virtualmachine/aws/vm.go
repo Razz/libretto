@@ -87,6 +87,8 @@ type VM struct {
 
 	SSHCreds            ssh.Credentials // required
 	DeleteKeysOnDestroy bool
+
+	OnBoot string
 }
 
 // EBSVolume represents an EBS Volume
