@@ -234,7 +234,7 @@ func instanceInfo(vm *VM) *ec2.RunInstancesInput {
 		SubnetId:           sid,
 		SecurityGroupIds:   sgid,
 		IamInstanceProfile: iamInstance,
-		UserData:           us,
+		UserData:           ud,
 	}
 }
 
