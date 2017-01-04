@@ -81,9 +81,9 @@ type VM struct {
 	KeepRootVolumeOnDestroy      bool
 	DeleteNonRootVolumeOnDestroy bool
 
-	VPC           string
-	Subnet        string
-	SecurityGroup string
+	VPC            string
+	Subnet         string
+	SecurityGroups string
 
 	SSHCreds            ssh.Credentials // required
 	DeleteKeysOnDestroy bool

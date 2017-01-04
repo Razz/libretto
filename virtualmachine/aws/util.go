@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/apcera/util/uuid"
@@ -188,9 +189,11 @@ func instanceInfo(vm *VM) *ec2.RunInstancesInput {
 	}
 
 	var sgid []*string
-	if vm.SecurityGroup != "" {
-		sgid = make([]*string, 1)
-		sgid[0] = aws.String(vm.SecurityGroup)
+	if vm.SecurityGroups != "" {
+		sgid = make([]*string, 0)
+		for _, sg := range strings.Split(vm.SecurityGroups, ",") {
+			sgid = append(sgid, aws.String(sg))
+		}
 	}
 
 	devices := make([]*ec2.BlockDeviceMapping, len(vm.Volumes))
