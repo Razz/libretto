@@ -137,6 +137,8 @@ func (vm *VM) SetTag(key, value string) error {
 	return nil
 }
 
+// SetTags takes in a map of tags to set to the provisioned instance. This is
+// essentially a shorter way then calling SetTag many times.
 func (vm *VM) SetTags(tags map[string]string) error {
 	for k, v := range tags {
 		if err := vm.SetTag(k, v); err != nil {
