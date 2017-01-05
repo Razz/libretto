@@ -191,7 +191,7 @@ func instanceInfo(vm *VM) *ec2.RunInstancesInput {
 	var sgid []*string
 	if vm.SecurityGroups != "" {
 		sgid = make([]*string, 0)
-		for _, sg := range strings.Split(vm.SecurityGroups, ",") {
+		for _, sg := range vm.SecurityGroups {
 			sgid = append(sgid, aws.String(sg))
 		}
 	}

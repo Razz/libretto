@@ -83,7 +83,7 @@ type VM struct {
 
 	VPC            string
 	Subnet         string
-	SecurityGroups string
+	SecurityGroups []string
 
 	SSHCreds            ssh.Credentials // required
 	DeleteKeysOnDestroy bool
