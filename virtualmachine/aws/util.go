@@ -195,8 +195,8 @@ func instanceInfo(vm *VM) *ec2.RunInstancesInput {
 	}
 
 	var ud *string
-	if vm.OnBoot != "" {
-		ud = aws.String(base64.StdEncoding.EncodeToString([]byte(vm.OnBoot)))
+	if vm.UserData != "" {
+		ud = aws.String(base64.StdEncoding.EncodeToString([]byte(vm.UserData)))
 	}
 
 	devices := make([]*ec2.BlockDeviceMapping, len(vm.Volumes))
